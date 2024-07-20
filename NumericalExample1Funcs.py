@@ -4,14 +4,11 @@ import matplotlib.pyplot as plt
 import matplotlib.tri as tri
 import matplotlib.path as mplPath
 import tensorflow as tf
-import calfem.geometry as cfg
-import calfem.mesh as cfm
-import calfem.vis as cfv
+# import calfem.geometry as cfg
+# import calfem.mesh as cfm
 from scipy.interpolate import LinearNDInterpolator, CloughTocher2DInterpolator, CubicSpline
-import sys
 import os
 import json
-import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.layers import Flatten
@@ -20,7 +17,6 @@ from tensorflow.keras.models import Model
 from tqdm import tqdm
 
 # Define The Training Patch generation functions
-
 def GetNormals(nodesB, alpha):
     # Calculates the n
     nodesB_expand = np.concatenate([nodesB[-1:],nodesB,nodesB[0:1]],0)
@@ -674,7 +670,7 @@ def TrainStep(encoder, encoderB, decoder, B, optimizer, batchI, batchB, r, fd_l_
 
     return loglossI+loglossB
 
-def TrainModel(encoder, encoderB, decoder, B, optimizer, dataset, dataset_b, r, epochs, n_batches, fd_l_weight, elliptc_weight, history=None, data_test=None, data_train=None):
+def TrainModel(encoder, encoderB, decoder, B, optimizer, dataset, dataset_b, r, epochs, n_batches, s_alphaBE, fd_l_weight, elliptc_weight, history=None, data_test=None, data_train=None):
     if history is None:
         history = {'loss':[], 'loss_i':[], 'loss_b':[], 'loss_c': [],'r_loss_i':[],'r_loss_b':[],'r_loss_c':[],'fd_l_loss_i':[],'fd_l_loss_b':[],'fd_l_loss_c':[],'elliptic_loss':[],'err_train':[],'err_test':[],'err_epoch':[]}
     history_epoch = np.zeros((n_batches,8))
@@ -695,7 +691,7 @@ def TrainModel(encoder, encoderB, decoder, B, optimizer, dataset, dataset_b, r, 
         history['elliptic_loss'].append(logloss[3])
         print(f'epoch: {epoch+1}/{epochs}; batch: {i+1}/{n_batches}; loss: {history_epoch[:,0].mean():.4g}', end='')
 
-        if (data_test is not None) and ((epoch+1)%2 == 0):
+        if (data_test is not None) and ((epoch+1)%5 == 0):
             err_arr = np.zeros((len(data_test)))
             for i in range(len(data_test)):
                 err_arr[i] = SINNsEvalErr(data_test[i],encoderB,decoder,B,r,s_alphaBE)
@@ -788,7 +784,7 @@ def PlotField(ax,fig, nodes, elements, vals):
     ax.set_aspect('equal', adjustable='box')
     return
 
-def PlotFEMsolution(nodes, elements,l):
+def PlotFEMsolution(nodes, elements,l,title=None):
     if elements.shape[1] == 4:
         # Convert quadrlateral mesh to triangular mesh
         elements = np.concatenate([elements[:,:3],elements[:,1:]],0)
@@ -800,7 +796,7 @@ def PlotFEMsolution(nodes, elements,l):
     r = l.shape[1]
     n_rows = np.ceil(r/3).astype(int)
     n_cols = min(r,3)
-    plt.figure(figsize=(5*n_cols,4*n_rows),dpi=300)
+    plt.figure(figsize=(5*n_cols,4*n_rows),dpi=100)
     for i in range(r):
         plt.subplot(n_rows,n_cols,i+1)
         plt.tricontourf(triangulation, l[:,i],10)
@@ -809,5 +805,7 @@ def PlotFEMsolution(nodes, elements,l):
         plt.ylabel('y')
         plt.colorbar()
         plt.gca().set_aspect('equal', adjustable='box')
+    if title:
+        plt.title(title)
     plt.show()
     return

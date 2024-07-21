@@ -1,4 +1,9 @@
 SINNpaper
 __pycache__
-TrainingData/LowReFLowDataProcessed/dataLowReFLow.json
-Models/LowReFlow/model_9_xBC/
+TrainingData/LowReFlowDataProcessed/dataLowReFLow.json
+Models/LowReFlow/model_9_xBC/decoder.keras
+Models/LowReFlow/model_9_xBC/encoder.keras
+Models/LowReFlow/model_9_xBC/encoderB.keras
+Models/LowReFlow/model_9_xBC/history.json
+Models/LowReFlow/model_9_xBC/hyperParams.json
+Models/LowReFlow/model_9_xBC/P.npy

@@ -4,7 +4,9 @@ This is code repository and demo for the paper "Structure informed neural networ
 
 ## Abstract of Structure informed neural networks for boundary observation problems in fluid mechanics
 
-- We address the problem of inferring the behaviour of a dynamical system within a domain using measurements taken only at its boundary. This is crucial in fluid mechanics, when non-intrusive sensors at the boundary are used to determine the state of the fluid inside its domain. We introduce a new data-driven method called Structure Informed Neural Networks (SINNs) whose key novelty is to model the transfer of information from  boundary-to-interior by embedding Elliptic Systems of PDEs into a classical encoder-decoder structure of a neural network. This approach ensures a well-posed network structure regardless of whether the data is well-posed or ill-posed. We show that SINNs are data-efficient and require no prior knowledge of the underlying PDEs. We demonstrate their effectiveness with two challenging examples: a nonlinear heat equation and the Navier-Stokes equations for flow past a body with variable geometry.
+We address the problem of inferring the behaviour of a dynamical system within a domain using measurements taken only at its boundary. This is crucial in fluid mechanics, when non-intrusive sensors at the boundary are used to determine the state of the fluid inside its domain. We introduce a new data-driven method called Structure Informed Neural Networks (SINNs) whose key novelty is to model the transfer of information from  boundary-to-interior by embedding Elliptic Systems of PDEs into a classical encoder-decoder structure of a neural network. This approach ensures a well-posed network structure regardless of whether the data is well-posed or ill-posed. We show that SINNs are data-efficient and require no prior knowledge of the underlying PDEs. We demonstrate their effectiveness with two challenging examples: a nonlinear heat equation and the Navier-Stokes equations for flow past a body with variable geometry.
+
+![SINNs abstract]()
 
 ## Setup Instructions
 
